@@ -1,46 +1,45 @@
 from telegram.ext import Updater, MessageHandler, Filters
-
+import os
 # =========================
 # 1️⃣ TOKEN BOT
 # =========================
-TOKEN = "8554596056:AAH6QcIj9ehxUW5Y37D8sOz1gse0QkCufXQ"
-
+TOKEN = os.getenv("BOT_TOKEN")
 
 
 # =========================
 # 2️⃣ BẢNG GIÁ THEO KHÁCH
 # =========================
 KHACH = {
-    111111111: {   # khách A
+    111111111: {   # thu
         "MB": {
-            "2CB": 37,
-            "2CD": 36,
-            "3CB": 20,
-            "3CXC": 17,
-            "DA_T": 1.8
+            "2CB": 22,
+            "2CD": 74,
+            "3CB": 22,
+            "3CXC": 74,
+            "DA_T": 44
         },
         "THUONG": {
-            "2CB": 39.6,
-            "2CD": 38,
-            "3CB": 21.6,
-            "3CXC": 18,
-            "DA_T": 2.0
+            "2CB": 14.6,
+            "2CD": 74,
+            "3CB": 14,6,
+            "3CXC": 74,
+            "DA_T": 29.2
         }
     },
-    222222222: {   # khách B
+    222222222: {   # phuong
         "MB": {
-            "2CB": 38,
-            "2CD": 37,
-            "3CB": 21,
-            "3CXC": 18,
-            "DA_T": 1.9
+            "2CB": 21.8,
+            "2CD": 72,
+            "3CB": 18,
+            "3CXC": 72,
+            "DA_T": 40
         },
         "THUONG": {
-            "2CB": 40,
-            "2CD": 39,
-            "3CB": 22,
-            "3CXC": 19,
-            "DA_T": 2.2
+            "2CB": 14.53,
+            "2CD": 72,
+            "3CB": 12,
+            "3CXC": 72,
+            "DA_T": 24
         }
     }
 }
