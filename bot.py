@@ -1,66 +1,33 @@
-from telegram.ext import Updater, MessageHandler, Filters
+from telegram import Update
+from telegram.ext import ApplicationBuilder, MessageHandler, ContextTypes, filters
 
-TOKEN = "DAN_TOKEN_CUA_BAN"
+TOKEN = "8554596056:AAH6QcIj9ehxUW5Y37D8sOz1gse0QkCufXQ"
 
-# 🔑 KHAI BÁO 2 KHÁCH
-KHACH = {
-    111111111: {   # user_id khách A
-        "c": 21.8,
-        "da": 38
-    },
-    222222222: {   # user_id khách B
-        "c": 22,
-        "da": 40
-    }
-}
+# USER ID của 2 khách (tạm để 0 – lát mình chỉ cách lấy)
+KHACH_A = 0
+KHACH_B = 0
 
-def tinh_tien(text, cong_thuc):
-    tong_c = 0
-    tong_da = 0
+def tinh_tien_cong_thuc_A(text):
+    # ví dụ công thức A
+    return 768
 
-    lines = text.lower().split("\n")
-    for line in lines:
-        parts = line.split()
-        if "c" in parts:
-            so_tien = int(parts[-1])
-            tong_c += so_tien * cong_thuc["c"]
-        if "da" in parts or "đá" in parts:
-            so_tien = int(parts[-1])
-            tong_da += so_tien * cong_thuc["da"]
+def tinh_tien_cong_thuc_B(text):
+    # ví dụ công thức B
+    return 1234
 
-    tong = int(tong_c + tong_da)
-    return int(tong_c), int(tong_da), tong
-
-
-def xu_ly_tin(update, context):
+async def xu_ly_tin(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.message.from_user.id
-    tin_goc = update.message.text
+    noi_dung = update.message.text
 
-    if user_id not in KHACH:
-        update.message.reply_text("❌ Bạn chưa được cấp quyền")
-        return
+    if user_id == KHACH_A:
+        tong = tinh_tien_cong_thuc_A(noi_dung)
+        await update.message.reply_text(f"🍀 Tổng = {tong}")
+    elif user_id == KHACH_B:
+        tong = tinh_tien_cong_thuc_B(noi_dung)
+        await update.message.reply_text(f"🍀 Tổng = {tong}")
+    else:
+        await update.message.reply_text("❌ Bạn không có quyền sử dụng bot")
 
-    cong_thuc = KHACH[user_id]
-    c, da, tong = tinh_tien(tin_goc, cong_thuc)
-
-    ket_qua = f"""KOS bot
-truong thu
-{tin_goc}
-
-Đã nhận tin 🍪
-2CB: {c}
-ĐáT: {da}
-
-🍀 Tổng = {tong}
-"""
-
-    update.message.reply_text(ket_qua)
-
-def main():
-    updater = Updater(TOKEN)
-    dp = updater.dispatcher
-    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, xu_ly_tin))
-    updater.start_polling()
-    updater.idle()
-
-main()
+app = ApplicationBuilder().token(TOKEN).build()
+app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, xu_ly_tin))
+app.run_polling()
